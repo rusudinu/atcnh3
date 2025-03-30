@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+RUN apk update && \
+    apk add --no-cache docker nodejs npm && \
+    npm install -g http-server
+
+WORKDIR /app
+
+COPY visualizer-html/ .
+
+CMD ["http-server", "-p", "8080"] 

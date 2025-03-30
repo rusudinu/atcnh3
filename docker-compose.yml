@@ -54,8 +54,6 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
-      mode: replicated
-      replicas: 1
     networks:
       - whoami-network
 

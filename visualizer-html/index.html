@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Swarm Visualizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .service {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+        .service-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .replicas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .replica {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+        .refresh-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .refresh-button:hover {
+            background-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Docker Swarm Visualizer</h1>
+        <button class="refresh-button" onclick="refreshData()">Refresh</button>
+        <div id="services-container"></div>
+    </div>
+
+    <script>
+        // Simulate fetching services data
+        function refreshData() {
+            const servicesContainer = document.getElementById('services-container');
+            servicesContainer.innerHTML = '';
+            
+            // Hardcoded data based on our docker-compose.yml
+            const services = [
+                { 
+                    name: 'whoami-service', 
+                    replicas: 10,
+                    color: '#3498db'
+                },
+                { 
+                    name: 'nginx', 
+                    replicas: 1,
+                    color: '#e74c3c'
+                },
+                { 
+                    name: 'visualizer', 
+                    replicas: 1,
+                    color: '#2ecc71'
+                }
+            ];
+            
+            services.forEach(service => {
+                const serviceElement = document.createElement('div');
+                serviceElement.className = 'service';
+                
+                const nameElement = document.createElement('div');
+                nameElement.className = 'service-name';
+                nameElement.textContent = service.name;
+                serviceElement.appendChild(nameElement);
+                
+                const replicasElement = document.createElement('div');
+                replicasElement.className = 'replicas';
+                
+                for (let i = 0; i < service.replicas; i++) {
+                    const replicaElement = document.createElement('div');
+                    replicaElement.className = 'replica';
+                    replicaElement.style.backgroundColor = service.color;
+                    replicaElement.textContent = `Instance ${i+1}`;
+                    replicasElement.appendChild(replicaElement);
+                }
+                
+                serviceElement.appendChild(replicasElement);
+                servicesContainer.appendChild(serviceElement);
+            });
+        }
+        
+        // Initial load
+        document.addEventListener('DOMContentLoaded', refreshData);
+    </script>
+</body>
+</html> 
