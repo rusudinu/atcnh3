@@ -46,12 +46,11 @@ services:
       - whoami-network
       
   visualizer:
-    image: custom-visualizer:latest
-    build:
-      context: .
-      dockerfile: Dockerfile.visualizer
+    image: alexellis2/visualizer-arm:latest
     ports:
       - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
     deploy:
       placement:
         constraints: [node.role == manager]
